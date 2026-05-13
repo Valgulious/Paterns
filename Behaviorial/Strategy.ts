@@ -31,3 +31,19 @@ class Logger {
         this.strategy.log(text);
     }
 }
+
+const main = () => {
+    const consoleStrategy = new ConsoleStrategy();
+    const fileStrategy = new FileStrategy();
+    const databaseStrategy = new DatabaseStrategy();
+
+    const logger = new Logger(consoleStrategy);
+
+    logger.log("Application started");
+
+    logger.setStrategy(fileStrategy);
+    logger.log("User registered: john_doe");
+
+    logger.setStrategy(databaseStrategy);
+    logger.log("Transaction completed: #12345");
+}

@@ -33,12 +33,45 @@ class Feed implements Subject<FeedItem> {
         }
     }
 
-    publish (title: string, text: string) {
+    publish(title: string, text: string): void {
         const feedItem: FeedItem = {
             title,
             text,
             date: new Date(),
-        }
+        };
         this.notify(feedItem);
     }
+}
+
+class EmailNotifier implements Observer<FeedItem> {
+    update(data: FeedItem): void {
+        console.log(`[EMAIL] Новый пост: "${data.title}" (${data.date.toLocaleString()})`);
+    }
+}
+
+class PushNotifier implements Observer<FeedItem> {
+    update(data: FeedItem): void {
+        console.log(`[PUSH] Уведомление: ${data.title}`);
+    }
+}
+
+const main = () => {
+    const feed = new Feed();
+    
+    const emailNotifier = new EmailNotifier();
+    const pushNotifier = new PushNotifier();
+
+    feed.subscribe(emailNotifier);
+    feed.subscribe(pushNotifier);
+
+    feed.publish('Feed 1', 'Text 1');
+    feed.publish('Feed 2', 'Text 2');
+
+    feed.unsubscribe(emailNotifier);
+
+    feed.publish('Feed 3', 'Text 3');
+
+    feed.subscribe(emailNotifier);
+    
+    feed.publish('Feed 4', 'Text 4');
 }

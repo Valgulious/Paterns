@@ -29,3 +29,18 @@ class OpenCommand implements Command {
         this.dialog.open();
     }
 }
+
+const main = () => {
+    const dialog = new Dialog();
+
+    const openCommand = new OpenCommand(dialog);
+    const closeCommand = new CloseCommand(dialog);
+
+    const onOpenButtonClick = () => {
+        openCommand.execute();
+    }
+
+    const onCloseButtonClick = () => {
+        closeCommand.execute();
+    }
+}

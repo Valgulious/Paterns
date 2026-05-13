@@ -1,10 +1,18 @@
-class Planner {}
+class Planner {
+    days: Date[] = [];
+    hotels: { date: Date; name: string }[] = [];
+    tickets: string[] = [];
+
+    reset(): void {
+        this.days = [];
+        this.hotels = [];
+        this.tickets = [];
+    }
+}
 
 interface PlannerBuilder {
     buildDay(date: Date): void;
     addHotel(date: Date, hotelName: string): void;
-    addReservation(): void;
-    addSpecialEvent(): void;
     addTickets(eventName: string): void;
     getPlanner(): Planner;
 }
@@ -16,15 +24,17 @@ class VacationBuilder implements PlannerBuilder {
         this.planner = new Planner();
     }
 
-    public buildDay(date: Date): void {}
+    public buildDay(date: Date): void {
+        this.planner.days.push(date);
+    }
 
-    public addHotel(date: Date, hotelName: string): void {}
+    public addHotel(date: Date, hotelName: string): void {
+        this.planner.hotels.push({ date, name: hotelName });
+    }
 
-    public addReservation(): void {}
-
-    public addSpecialEvent(): void {}
-
-    public addTickets(eventName: string): void {}
+    public addTickets(eventName: string): void {
+        this.planner.tickets.push(eventName);
+    }
 
     public getPlanner(): Planner {
         return this.planner;
@@ -42,4 +52,11 @@ class Application {
 
         return vacationBuilder.getPlanner();
     }
+}
+
+const main = () => {
+    const app = new Application();
+    const planner = app.makeVacationPlanner();
+
+    console.log(planner);
 }

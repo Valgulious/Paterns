@@ -25,3 +25,14 @@ class CheeseeDecorator extends BurgerDecorator {
         return super.getCost() + this.amount * 10;
     }
 }
+
+const main = () => {
+    const basicBurger: Burger = new Wapper();
+    console.log(`🍔 Базовый бургер: ${basicBurger.getCost()} ₽`);
+
+    const burgerWithCheese: Burger = new CheeseeDecorator(basicBurger, 2);
+    console.log(`С сыром (2 шт): ${burgerWithCheese.getCost()} ₽`);
+
+    const extraCheese: Burger = new CheeseeDecorator(burgerWithCheese, 3);
+    console.log(`С сыром (2+3 шт): ${extraCheese.getCost()} ₽`);
+}
